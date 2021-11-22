@@ -1,3 +1,11 @@
+:root{
+  --main-bg-color: #19243b;
+  --light-bg-color: #203258;
+  --line-color: #707070;
+  --bright-line-color: #68758f;
+  --shadow-color: rgba(71, 255, 141, 0.788);
+}
+
 .App {
   text-align: center;
 }
@@ -35,4 +43,15 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.App-container {
+  background-color: #7bbbf0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  /* font-size: calc(10px + 2vmin); */
+  color: white;
 }
