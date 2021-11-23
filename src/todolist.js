@@ -4,7 +4,6 @@ import SubList  from './sublist';
 import { useState } from 'react/cjs/react.development';
 
 function storeTreetolocalStorage(todotree){
-    // const tree = JSON.stringify(todotree.slice());
     const tree = JSON.stringify(todotree);
     localStorage.setItem('toDoList',tree);
 }
@@ -18,7 +17,6 @@ function handleCreateSubList(todoTree,setTodoTree){
     storeTreetolocalStorage(newtodotree);
 }
 function isIdSame(item){
-    // console.log(item.id,this,item.id === this,item.id == this)
     return item.id === this;
 }
 function storeSublist(todotree,setTodoTree,target){
@@ -26,7 +24,6 @@ function storeSublist(todotree,setTodoTree,target){
     for (let sublist in todoTree){
         if(todoTree[sublist].id === target.id){
             todoTree[sublist] = target;
-            // console.log("stored:",todoTree,target)
             setTodoTree(todoTree)
             storeTreetolocalStorage(todoTree)
             return
@@ -39,7 +36,6 @@ function handleDeleteSubList(id,todoTree,setTodoTree){
     let pos,removedid;
     pos = todotree.findIndex(isIdSame,id);
     removedid = todotree.splice(pos,1);
-    console.log("deleted",id,todotree,removedid);
     setTodoTree(todotree)
     storeTreetolocalStorage(todotree);
 }
@@ -70,11 +66,7 @@ function ToDoList() {
                 listid={sublist.id}
                 sublist={sublist}
                 storeSublist={(e)=>storeSublist(todoTree,setTodoTree,e)}
-                // todoTree={todoTree}
-                // setTodoTree={setTodoTree}
                 handleDeleteSubList={()=>handleDeleteSubList(sublist.id,todoTree,setTodoTree)}
-                // handleStoreToDoList={(e)=>this.handleStoreToDoList(id,e)}
-                // handleStoreSubListTitle={(e)=>handleStoreSubListTitle(id,e)}
             />
         )
     })
@@ -82,7 +74,6 @@ function ToDoList() {
     return(
         <div className="todo-list-container">
             <h2>This is todo list</h2>
-            {/* <p>todo tree: {JSON.stringify(todoTree)}</p> */}
             <p>contenteditable and stored in localStorage</p>
             <div className="sublist-container">
                 <div className="todo-create-btn-container">

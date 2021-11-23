@@ -10,8 +10,6 @@ function handlePaste(e){
 function handleToDoKeyDown(e,id,checkbox,handleCreateTodoItem,renew,setRenew){
     if(!e.nativeEvent.isComposing && e.key === "Enter"){
         e.preventDefault();
-        e.stopPropagation();
-        e.nativeEvent.stopImmediatePropagation();
         if(e.target.outerText === ""){
             // do nothing
         }else{
@@ -43,9 +41,9 @@ function handleToDoBlur(e,checkbox,handleCreateTodoItem,renew,setRenew){
     if(!checkbox){
         if(e.target.outerText!==""){
             // if nothing is typed ignored
+            // if the blur event is triggered from other event, e.g. keyDown (not human triggered)
             if(e.relatedTarget !== null) return;
             // create with no focus
-            console.log("blurred:",e)
             handleCreateTodoItem(null,e.target.innerText,false)
             // renew to "add sth to the list" bar
             setRenew(!renew)
@@ -60,6 +58,7 @@ function ToDoItem(props){
     // check for focus
     useEffect(()=>{
         if (props.focus){
+            // inputRef.current.blur();
             let range = document.createRange();
             let selection = document.getSelection();
             

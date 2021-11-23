@@ -73,17 +73,8 @@ function handleCreateTodoItem(referenceId,value,focus,sublist,storeSublist){
 
 function SubList(props){
     const [renew,setRenew] = useState(false)
-    // const[itemsTodo,setItemsTodo] = useState()
-    // useEffect(()=>{
-    //     const storedtree = localStorage.getItem('toDoList');
-    //     if(storedtree){
-    //         const 
-    //     }
-    // });
 
     let itemsTodo = props.sublist.tree.slice();
-    // if(this.state.itemsDone===null)
-        // itemsTodo =  
     let todoitems;let doneitems;
     let sublistTitle = props.sublist.sublistTitle;
     if(itemsTodo.length === 0){
@@ -101,11 +92,6 @@ function SubList(props){
                 storeTodoItem={(e,f,g,h)=>storeTodoItem(e,f,g,h,item.id,props.sublist,props.storeSublist)}
                 handleCreateTodoItem={(e,f,g)=>handleCreateTodoItem(e,f,g,props.sublist,props.storeSublist)}
                 deleteTodoItem={()=>deleteTodoItem(item.id,props.sublist,props.storeSublist)}
-                // handleClickLabel={(e) => this.handleClickLabel(e)}
-                // handleToDoBlur={(e,f) => this.handleToDoBlur(e,f)}
-                // handleDeleteToDoItem={()=>this.handleDeleteToDoItem(item.id)}
-                // handleCreateNext={(e)=>this.handleCreateNext(e)}
-                // handleStoreItem={(e,f,g)=>this.handleStoreItem(item.id,e,f,g)}
                 placeholder="..."
                 checkbox={true}
                 focus={item.focus}
@@ -126,10 +112,6 @@ function SubList(props){
                 storeTodoItem={(e,f,g,h)=>storeTodoItem(e,f,g,h,item.id,props.sublist,props.storeSublist)}
                 handleCreateTodoItem={(e,f,g)=>handleCreateTodoItem(e,f,g,props.sublist,props.storeSublist)}
                 deleteTodoItem={()=>deleteTodoItem(item.id,props.sublist,props.storeSublist)}
-                // handleToDoBlur={(e,f) => this.handleToDoBlur(e,f)}
-                // handleDeleteToDoItem={()=>this.handleDeleteToDoItem(item.id)}
-                // handleCreateNext={(e)=>this.handleCreateNext(e)}
-                // handleStoreItem={(e,f,g)=>this.handleStoreItem(item.id,e,f,g)}
                 placeholder="..."
                 checkbox={true}
                 focus={item.focus}
@@ -159,10 +141,8 @@ function SubList(props){
             {todoitems}
             <ToDoItem
                 key={"add"+renew}
-                // handleToDoBlur={(e,f) => this.handleToDoBlur(e,f)}
                 storeTodoItem={(e,f,g,h)=>storeTodoItem(e,f,g,h,"add"+renew,props.sublist,props.storeSublist)}
                 handleCreateTodoItem={(e,f,g)=>handleCreateTodoItem(e,f,g,props.sublist,props.storeSublist)}
-                // handleStoreItem={(e)=>this.handleStoreItem("add"+this.state.renew,e)}
                 placeholder="Add sth to the list..."
                 checkbox={false}
                 renew={renew}
