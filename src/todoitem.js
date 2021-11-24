@@ -7,50 +7,7 @@ function handlePaste(e){
     document.execCommand('insertText',false,paste);
 }
 
-function handleToDoKeyDown(e,id,checkbox,handleCreateTodoItem,renew,setRenew){
-    if(!e.nativeEvent.isComposing && e.key === "Enter"){
-        e.preventDefault();
-        if(e.target.outerText === ""){
-            // do nothing
-        }else{
-            if(checkbox){
-                // create a new one just below with focus
-                // referenceId,focus,value
-                handleCreateTodoItem(id,null,null)
-            }else{
-                // create with focus
-                console.log("keydown:",e)
-                handleCreateTodoItem(null,e.target.innerText,true)
-                // renew to "add sth to the list" bar
-                setRenew(!renew)
-            }
-        }
-    }
-}
 
-function handleToDoInput(e,checked,focus,storeTodoItem){
-    let selection = document.getSelection();
-    // console.log("selection:",selection.getRangeAt(0),selection.focusNode,selection.focusOffset)
-    if(!e.nativeEvent.isComposing){
-        storeTodoItem(checked,e.target.innerText,true,selection.focusOffset)
-    }
-}
-
-function handleToDoBlur(e,checkbox,handleCreateTodoItem,renew,setRenew){
-    //if this is create add the value to list if not just stay calm
-    if(!checkbox){
-        if(e.target.outerText!==""){
-            // if nothing is typed ignored
-            // if the blur event is triggered from other event, e.g. keyDown (not human triggered)
-            if(e.relatedTarget !== null) return;
-            // create with no focus
-            handleCreateTodoItem(null,e.target.innerText,false)
-            // renew to "add sth to the list" bar
-            setRenew(!renew)
-        }
-    }
-    // save the whole tree
-}
 
 function ToDoItem(props){
     const inputRef = useRef(null);
@@ -75,6 +32,54 @@ function ToDoItem(props){
             selection.addRange(range);
         }
     });
+
+    function handleToDoKeyDown(e){
+        if(!e.nativeEvent.isComposing && e.key === "Enter"){
+            e.preventDefault();
+            if(e.target.outerText === ""){
+                // do nothing
+            }else{
+                if(props.checkbox){
+                    // create a new one just below with focus
+                    // referenceId,focus,value
+                    props.handleCreateTodoItem(props.id,null,null)
+                }else{
+                    // create with focus
+                    console.log("keydown:",e)
+                    props.handleCreateTodoItem(null,e.target.innerText,true)
+                    // renew to "add sth to the list" bar
+                    props.setRenew(!props.renew)
+                }
+            }
+        }
+    }
+    
+    function handleToDoInput(e){
+        let selection = document.getSelection();
+        // console.log("selection:",selection.getRangeAt(0),selection.focusNode,selection.focusOffset)
+        if(!e.nativeEvent.isComposing){
+            props.storeTodoItem(props.checked,e.target.innerText,true,selection.focusOffset)
+        }
+    }
+    
+    function handleToDoBlur(e){
+        //if this is create add the value to list if not just stay calm
+        if(!props.checkbox){
+            if(e.target.outerText!==""){
+                // if nothing is typed ignored
+                // if the blur event is triggered from other event, e.g. keyDown (not human triggered)
+                if(e.relatedTarget !== null) return;
+                // create with no focus
+                props.handleCreateTodoItem(null,e.target.innerText,false)
+                // renew to "add sth to the list" bar
+                props.setRenew(!props.renew)
+            }
+        }else{
+            // clear the focus
+            props.storeTodoItem(props.checked,e.target.innerText,false,null);
+        }
+        // save the whole tree
+    }
 
     let itemcheck;
     if(props.checkbox === true){
@@ -109,15 +114,16 @@ function ToDoItem(props){
                     // use CSS to attend the place holder
                     placeholder={props.placeholder}
                     value={props.renew}
-                    onInput={(e)=>handleToDoInput(e,props.checked,props.focus,props.storeTodoItem)}
-                    onBlur={(e) => handleToDoBlur(e,props.checkbox,props.handleCreateTodoItem,props.renew,props.setRenew)}
-                    onKeyDown={(e) => handleToDoKeyDown(e,props.id,props.checkbox,props.handleCreateTodoItem,props.renew,props.setRenew)}
+                    onInput={(e)=>handleToDoInput(e)}
+                    onBlur={(e) => handleToDoBlur(e)}
+                    onKeyDown={(e) => handleToDoKeyDown(e)}
                     onPaste={(e)=>handlePaste(e)}
                     autoComplete="off"
                     spellCheck="false"
                     wrap="soft"
                     suppressContentEditableWarning={true}
                     ref={inputRef}
+                    onCompositionEnd={(e)=>handleToDoInput(e)}
                     > 
                 {props.value}
                 </div>
